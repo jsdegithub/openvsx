@@ -1,0 +1,25 @@
+```mermaid
+sequenceDiagram
+    participant user
+    participant marketplace
+    participant loginService
+    participant databaseSearchService
+
+    user->>marketplace: 访问插件市场首页列表 (visitPluginMarket)
+    marketplace->>databaseSearchService: 查询可用插件 (queryAvailablePlugins)
+    databaseSearchService-->>marketplace: 返回插件列表 (returnPluginList)
+    marketplace-->>user: 显示可用插件 (displayAvailablePlugins)
+
+    user->>marketplace: 搜索插件 (searchSpecificPlugin)
+    marketplace->>databaseSearchService: 搜索插件 (searchPlugin)
+    databaseSearchService-->>marketplace: 返回搜索结果 (returnSearchResults)
+    marketplace-->>user: 显示搜索结果 (displaySearchResults)
+
+    user->>marketplace: 查看插件详情 (selectPlugin)
+    marketplace-->>user: 显示插件详情 (displayPluginDetails)
+
+    user->>marketplace: 登录认证 (login)
+    marketplace->>loginService: 重定向到认证服务 (redirectToAuthService)
+    loginService-->>marketplace: 确认登录 (confirmLogin)
+    marketplace-->>user: 显示用户仪表板 (displayUserDashboard)
+```

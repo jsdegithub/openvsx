@@ -1,0 +1,50 @@
+```mermaid
+sequenceDiagram
+    participant user
+    participant marketplace
+    participant loginService
+    participant registrationAPI
+    participant localRegistrationService
+    participant databaseSearchService
+    participant manageStatisticsTaskHandler
+
+    user->>marketplace: 访问插件市场 (visitPluginMarket)
+    marketplace->>databaseSearchService: 查询可用插件 (queryAvailablePlugins)
+    databaseSearchService-->>marketplace: 返回插件列表 (returnPluginList)
+    marketplace-->>user: 显示可用插件 (displayAvailablePlugins)
+
+    user->>marketplace: 搜索特定插件 (searchSpecificPlugin)
+    marketplace->>databaseSearchService: 搜索插件 (searchPlugin)
+    databaseSearchService-->>marketplace: 返回搜索结果 (returnSearchResults)
+    marketplace-->>user: 显示搜索结果 (displaySearchResults)
+
+    user->>marketplace: 选择插件 (selectPlugin)
+    marketplace-->>user: 显示插件详情 (displayPluginDetails)
+
+    user->>marketplace: 下载插件 (downloadPlugin)
+    marketplace->>localRegistrationService: 获取下载链接 (getDownloadLink)
+    localRegistrationService-->>marketplace: 提供下载链接 (provideDownloadLink)
+    marketplace-->>user: 提供下载链接 (provideDownloadLink)
+
+    user->>marketplace: 安装插件 (installPlugin)
+    marketplace-->>user: 确认安装 (confirmInstallation)
+
+    user->>marketplace: 登录认证(automgit) (login)
+    marketplace->>loginService: 重定向到automgit进行身份验证 (redirectToAutomgit)
+    loginUserService->>automgit: 认证 (authenticate)
+    automgit-->>loginUserService: 带令牌重定向回来 (redirectWithToken)
+    loginUserService-->>marketplace: 确认登录 (confirmLogin)
+    marketplace-->>user: 显示用户仪表板 (displayUserDashboard)
+
+    user->>marketplace: 发布新插件 (publishNewPlugin)
+    marketplace->>registrationAPI: 提供插件上传界面 (provideUploadInterface)
+    registrationAPI->>localRegistrationService: 上传插件包 (uploadPluginPackage)
+    localRegistrationService-->>registrationAPI: 验证并存储插件 (verifyAndStorePlugin)
+    registrationAPI-->>marketplace: 确认插件发布 (confirmPluginPublish)
+    marketplace-->>user: 显示已发布插件详情 (displayPublishedPluginDetails)
+
+    user->>marketplace: 确认插件发布 (confirmPluginPublish)
+    marketplace->>manageStatisticsTaskHandler: 更新统计数据 (updateStatistics)
+    manageStatisticsTaskHandler-->>marketplace: 确认更新 (confirmUpdate)
+    marketplace-->>user: 显示更新后的统计数据 (displayUpdatedStatistics)
+```
